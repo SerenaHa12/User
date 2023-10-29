@@ -1,27 +1,41 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-const ModalAddUser = () => {
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+// import { useState } from "react";
+const ModalAddUser = (props) => {
+  const { show, handleClose } = props;
   return (
     <>
-      <div
-        className="modal show"
-        style={{ display: "block", position: "initial" }}
-      >
-        <Modal.Dialog>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p>Modal body text goes here.</p>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary">Close</Button>
-            <Button variant="primary">Save changes</Button>
-          </Modal.Footer>
-        </Modal.Dialog>
-      </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Users</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="User Name"
+              aria-label="UserName"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="Job"
+              aria-label="Job"
+              aria-describedby="basic-addon1"
+            />
+          </InputGroup>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
