@@ -1,37 +1,37 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-import Button from "react-bootstrap/Button";
+
 import Container from "react-bootstrap/Container";
+
+import { ToastContainer } from "react-toastify";
 
 import Header from "./components/Header";
 import TableUsers from "./components/TableUsers";
-import ModalAddUser from "./components/ModalAddUser";
 
 function App() {
-  const [isShowModalAddUser, setIsShowModalAddUser] = useState(false);
-
-  const handleClose = () => {
-    setIsShowModalAddUser(false);
-  };
   return (
-    <div className="app-container">
-      <Header />
-      <Container>
-        <div className="my-3 d-flex justify-content-between">
-          List Users:
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => setIsShowModalAddUser(true)}
-          >
-            <span>Add user</span>
-          </Button>{" "}
-        </div>
-        <TableUsers />
-      </Container>
-
-      <ModalAddUser show={isShowModalAddUser} handleClose={handleClose} />
-    </div>
+    <>
+      <div className="app-container">
+        <Header />
+        <Container>
+          <TableUsers />
+        </Container>
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {/* Same as */}
+      <ToastContainer />
+    </>
   );
 }
 

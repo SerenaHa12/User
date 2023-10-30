@@ -6,4 +6,9 @@ const fetchAllUser = (page) => {
 };
 // console.log(fetchAllUser);
 
-export { fetchAllUser };
+const postCreateUser = (name, job) => {
+  return axiosClient.post("/api/users", { name, job });
+};
+// console.log(postCreateUser);
+
+export { fetchAllUser, postCreateUser };

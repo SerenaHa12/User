@@ -5,33 +5,20 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useState } from "react";
 import { postCreateUser } from "../api/userApi";
 
-import TableUsers from "./TableUsers";
-
-import { toast } from "react-toastify";
-const ModalAddUser = (props) => {
+const ModalEditUser = (props) => {
   const { show, handleClose, handleUpdateTable } = props;
   const [name, setName] = useState("");
   const [job, setJob] = useState("");
 
-  const handleSaveUser = async () => {
-    let res = await postCreateUser(name, job);
-    // console.log(name, job);
-    console.log(res);
-    if (res && res.id) {
-      handleClose();
-      setName("");
-      setJob("");
-      toast.success("User added successfully");
-      handleUpdateTable({ first_name: name, id: res.id });
-    } else {
-      toast.error("User added failed");
-    }
+  const handleEditUser = (user) => {
+    console.log(user);
   };
+
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Users</Modal.Title>
+          <Modal.Title>Edit New Users</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <InputGroup className="mb-3">
@@ -54,10 +41,15 @@ const ModalAddUser = (props) => {
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleEditUser();
+            }}
+          >
             Close
           </Button>
-          <Button variant="primary" onClick={handleSaveUser}>
+          <Button variant="primary" onClick={handleEditUser}>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -66,4 +58,4 @@ const ModalAddUser = (props) => {
   );
 };
 
-export default ModalAddUser;
+export default ModalEditUser;

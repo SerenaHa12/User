@@ -1,8 +1,13 @@
-import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-import { fetchAllUser } from "../api/userApi";
+
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 import ReactPaginate from "react-paginate";
 import Container from "react-bootstrap/Container";
+
+import { fetchAllUser } from "../api/userApi";
+import ModalAddUser from "./ModalAddUser";
+import ModalEditUser from "./ModalEditUser";
 
 const TableUsers = (props) => {
   const [listUsers, setListUsers] = useState([]);
@@ -32,8 +37,30 @@ const TableUsers = (props) => {
     console.log("event", event);
     getUser(+event.selected + 1);
   };
+
+  // add user
+  const [isShowModalAddUser, setIsShowModalAddUser] = useState(false);
+  const handleClose = () => {
+    setIsShowModalAddUser(false);
+  };
+  const handleUpdateTable = (user) => {
+    setListUsers([user, ...listUsers]);
+  };
+
+  const [isShowModalEditUser, setIsShowModalEditUser] = useState(false);
+
   return (
     <>
+      <div className="my-3 d-flex justify-content-between">
+        List Users:
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => setIsShowModalAddUser(true)}
+        >
+          <span>Add user</span>
+        </Button>{" "}
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -41,6 +68,7 @@ const TableUsers = (props) => {
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +81,14 @@ const TableUsers = (props) => {
                   <td>{item.email}</td>
                   <td>{item.first_name}</td>
                   <td>{item.last_name}</td>
+                  <td>
+                    <Button className="mx-3" variant="warning" size="sm">
+                      Edit
+                    </Button>
+                    <Button variant="danger" size="sm">
+                      Delete
+                    </Button>
+                  </td>
                 </tr>
               );
             })}
@@ -79,6 +115,12 @@ const TableUsers = (props) => {
           renderOnZeroPageCount={null}
         />
       </Container>
+      <ModalAddUser
+        show={isShowModalAddUser}
+        handleClose={handleClose}
+        handleUpdateTable={handleUpdateTable}
+      />
+      <ModalEditUser show={isShowModalEditUser} />
     </>
   );
 };
