@@ -21,4 +21,4 @@ const deleteDeleteUser = (id) => {
   return axiosClient.delete(`/api/users/${id}`);
 };
 
-export { fetchAllUser, postCreateUser, putUpdateUser };
+export { fetchAllUser, postCreateUser, putUpdateUser, deleteDeleteUser };

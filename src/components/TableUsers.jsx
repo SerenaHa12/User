@@ -8,6 +8,7 @@ import Container from "react-bootstrap/Container";
 import { fetchAllUser } from "../api/userApi";
 import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
+import ModalConfirm from "./ModalConfirm";
 
 const TableUsers = (props) => {
   const [listUsers, setListUsers] = useState([]);
@@ -44,6 +45,7 @@ const TableUsers = (props) => {
   const handleClose = () => {
     setIsShowModalAddUser(false);
     setIsShowModalEditUser(false);
+    setIsShowModalDeleteUser(false);
   };
   const handleUpdateTable = (user) => {
     setListUsers([user, ...listUsers]);
@@ -67,6 +69,21 @@ const TableUsers = (props) => {
     console.log("check index", index);
     console.log(listUsers, cloneListUsers);
     console.log(user);
+  };
+
+  // delete users
+  const [isShowModalDeleteUser, setIsShowModalDeleteUser] = useState(false);
+  const [dataUserDelete, setDataUserDelete] = useState({});
+  const handleDeleteUser = (user) => {
+    setIsShowModalDeleteUser(true);
+    setDataUserDelete(user);
+    console.log(user);
+  };
+
+  const handleDeleteUserFromModal = (user) => {
+    let cloneListUsers = [...listUsers];
+    cloneListUsers = cloneListUsers.filter((item) => item.id !== user.id);
+    setListUsers(cloneListUsers);
   };
 
   return (
@@ -112,7 +129,13 @@ const TableUsers = (props) => {
                     >
                       Edit
                     </Button>
-                    <Button variant="danger" size="sm">
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      onClick={() => {
+                        handleDeleteUser(item);
+                      }}
+                    >
                       Delete
                     </Button>
                   </td>
@@ -152,6 +175,12 @@ const TableUsers = (props) => {
         handleClose={handleClose}
         dataUserEdit={dataUserEdit}
         handleEditUserFromModal={handleEditUserFromModal}
+      />
+      <ModalConfirm
+        show={isShowModalDeleteUser}
+        handleClose={handleClose}
+        dataUserDelete={dataUserDelete}
+        handleDeleteUserFromModal={handleDeleteUserFromModal}
       />
     </>
   );

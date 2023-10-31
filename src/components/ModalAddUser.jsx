@@ -28,7 +28,11 @@ const ModalAddUser = (props) => {
   };
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal 
+        show={show} 
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>Add New Users</Modal.Title>
         </Modal.Header>
