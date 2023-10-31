@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import _, { debounce } from "lodash";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -66,9 +67,9 @@ const TableUsers = (props) => {
     let index = listUsers.findIndex((item) => item.id === user.id);
     cloneListUsers[index].first_name = user.first_name;
     setListUsers(cloneListUsers);
-    console.log("check index", index);
-    console.log(listUsers, cloneListUsers);
-    console.log(user);
+    // console.log("check index", index);
+    // console.log(listUsers, cloneListUsers);
+    // console.log(user);
   };
 
   // delete users
@@ -86,6 +87,43 @@ const TableUsers = (props) => {
     setListUsers(cloneListUsers);
   };
 
+  // sort id, name
+  const [sortBy, setSortBy] = useState("asc");
+  const [sortField, setSortField] = useState("id");
+
+  const handleSort = (sortBy, sortField) => {
+    setSortBy(sortBy);
+    setSortField(sortField);
+    let cloneListUsers = [...listUsers];
+    // cloneListUsers = cloneListUsers.sort(
+    //   (a, b) => -(a[sortField] - b[sortField])
+    // );
+    cloneListUsers = _.orderBy(cloneListUsers, [sortField], [sortBy]);
+    setListUsers(cloneListUsers);
+    // console.log(cloneListUsers);
+  };
+
+  // console.log("check sort", sortBy, sortField);
+
+  // search
+  const [searchKeyWord, setSearchKeyWord] = useState("");
+
+  const handleSearch = debounce((event) => {
+    let keyword = event.target.value;
+    console.log(event.target.value, keyword);
+    if (keyword) {
+      let cloneListUsers = [...listUsers];
+      cloneListUsers = cloneListUsers.filter((item) =>
+        item.email.includes(keyword)
+      );
+      console.log(cloneListUsers);
+      // cloneListUsers = _.includes(cloneListUsers, item => item.includes());
+      setListUsers(cloneListUsers);
+    } else {
+      getUser(1);
+    }
+  }, 500);
+
   return (
     <>
       <div className="my-3 d-flex justify-content-between">
@@ -98,12 +136,53 @@ const TableUsers = (props) => {
           <span>Add user</span>
         </Button>{" "}
       </div>
+      <div className="col-6 my-3">
+        <input
+          type="search"
+          className="form-control"
+          aria-label="Search"
+          placeholder="Search user by email..."
+          aria-describedby="inputGroup-sizing-sm"
+          // value={searchKeyWord}
+          onChange={(event) => {
+            handleSearch(event);
+          }}
+        ></input>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>
+              <span className="me-2">ID</span>
+              <i
+                className="fa-solid fa-arrow-down-long"
+                onClick={() => {
+                  handleSort("desc", "id");
+                }}
+              ></i>
+              <i
+                className="fa-solid fa-arrow-up-long"
+                onClick={() => {
+                  handleSort("asc", "id");
+                }}
+              ></i>
+            </th>
             <th>Email</th>
-            <th>First Name</th>
+            <th>
+              <span className="me-2">First Name</span>{" "}
+              <i
+                className="fa-solid fa-arrow-down-long"
+                onClick={() => {
+                  handleSort("desc", "first_name");
+                }}
+              ></i>
+              <i
+                className="fa-solid fa-arrow-up-long"
+                onClick={() => {
+                  handleSort("asc", "first_name");
+                }}
+              ></i>
+            </th>
             <th>Last Name</th>
             <th>Actions</th>
           </tr>
