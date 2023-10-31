@@ -17,10 +17,10 @@ const TableUsers = (props) => {
   useEffect(() => {
     getUser();
   }, []);
-
+  // get list of users
   const getUser = async (page) => {
     let res = await fetchAllUser(page);
-    console.log(res);
+    // console.log(res);
 
     if (res && res.data) {
       // console.log(1);
@@ -33,8 +33,9 @@ const TableUsers = (props) => {
     }
   };
 
+  // phân trang
   const handlePageClick = (event) => {
-    console.log("event", event);
+    // console.log("event", event);
     getUser(+event.selected + 1);
   };
 
@@ -42,12 +43,31 @@ const TableUsers = (props) => {
   const [isShowModalAddUser, setIsShowModalAddUser] = useState(false);
   const handleClose = () => {
     setIsShowModalAddUser(false);
+    setIsShowModalEditUser(false);
   };
   const handleUpdateTable = (user) => {
     setListUsers([user, ...listUsers]);
   };
 
+  // edit user
   const [isShowModalEditUser, setIsShowModalEditUser] = useState(false);
+  const [dataUserEdit, setDataUserEdit] = useState({});
+
+  const handleEditUser = (user) => {
+    // console.log(user);
+    setDataUserEdit(user);
+    setIsShowModalEditUser(true);
+  };
+
+  const handleEditUserFromModal = (user) => {
+    let cloneListUsers = [...listUsers];
+    let index = listUsers.findIndex((item) => item.id === user.id);
+    cloneListUsers[index].first_name = user.first_name;
+    setListUsers(cloneListUsers);
+    console.log("check index", index);
+    console.log(listUsers, cloneListUsers);
+    console.log(user);
+  };
 
   return (
     <>
@@ -82,7 +102,14 @@ const TableUsers = (props) => {
                   <td>{item.first_name}</td>
                   <td>{item.last_name}</td>
                   <td>
-                    <Button className="mx-3" variant="warning" size="sm">
+                    <Button
+                      className="mx-3"
+                      variant="warning"
+                      onClick={() => {
+                        handleEditUser(item);
+                      }}
+                      size="sm"
+                    >
                       Edit
                     </Button>
                     <Button variant="danger" size="sm">
@@ -120,9 +147,27 @@ const TableUsers = (props) => {
         handleClose={handleClose}
         handleUpdateTable={handleUpdateTable}
       />
-      <ModalEditUser show={isShowModalEditUser} />
+      <ModalEditUser
+        show={isShowModalEditUser}
+        handleClose={handleClose}
+        dataUserEdit={dataUserEdit}
+        handleEditUserFromModal={handleEditUserFromModal}
+      />
     </>
   );
 };
 
 export default TableUsers;
+
+// const [isShowModalAddUser, setIsShowModalAddUser] = useState({
+//   id: 4,
+//   age: 5,
+//   name: "cho",
+// });
+
+// setIsShowModalAddUser((prev) => {
+//   return {
+//     ...prev,
+//     id: 5,
+//   };
+// });

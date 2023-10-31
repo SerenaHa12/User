@@ -2,10 +2,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+
 import { useState } from "react";
 import { postCreateUser } from "../api/userApi";
-
-import TableUsers from "./TableUsers";
 
 import { toast } from "react-toastify";
 const ModalAddUser = (props) => {
@@ -16,7 +15,7 @@ const ModalAddUser = (props) => {
   const handleSaveUser = async () => {
     let res = await postCreateUser(name, job);
     // console.log(name, job);
-    console.log(res);
+    // console.log(res);
     if (res && res.id) {
       handleClose();
       setName("");
