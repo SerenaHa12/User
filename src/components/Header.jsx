@@ -20,7 +20,7 @@ const Header = (props) => {
               <Nav.Link href="/users">Users</Nav.Link>
               <NavDropdown title="Settings" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-                <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/login">Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

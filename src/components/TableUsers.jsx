@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import _, { debounce } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
@@ -10,16 +11,18 @@ import { fetchAllUser } from "../api/userApi";
 import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalConfirm from "./ModalConfirm";
+import checkToken from "../api/checkToken";
+
+import { toast } from "react-toastify";
 
 const TableUsers = (props) => {
   const [listUsers, setListUsers] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  useEffect(() => {
-    getUser();
-  }, []);
-  // get list of users
+  checkToken();
+
+  const navigate = useNavigate();
   const getUser = async (page) => {
     let res = await fetchAllUser(page);
     // console.log(res);
@@ -40,6 +43,12 @@ const TableUsers = (props) => {
     // console.log("event", event);
     getUser(+event.selected + 1);
   };
+
+  useEffect(() => {
+    getUser();
+    // checkToken()
+  }, []);
+  // get list of users
 
   // add user
   const [isShowModalAddUser, setIsShowModalAddUser] = useState(false);
