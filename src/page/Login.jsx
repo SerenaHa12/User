@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { postLoginUser } from "../api/userApi";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
+  const { loginContext } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,8 +25,7 @@ const Login = () => {
       console.log("res", res);
 
       if (res && res.token) {
-        localStorage.setItem("token", res.token);
-        toast.success(`Login Success`);
+        loginContext(email, res.token);
         navigate("/");
       } else {
         // toast.error(res.error);
@@ -71,9 +72,6 @@ const Login = () => {
                 >
                   Log In
                 </Button>
-                <div className="back mx-auto">
-                  <a href="#">Go Back</a>
-                </div>
               </Form>
             </div>
           </Col>

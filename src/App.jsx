@@ -10,8 +10,22 @@ import Home from "./page/Home";
 import Users from "./page/Users";
 import Login from "./page/Login";
 
+import { useContext, useEffect } from "react";
+import { UserContext } from "./context/UserContext";
+
 import { Route, Routes, Link } from "react-router-dom";
 function App() {
+  const { user, loginContext } = useContext(UserContext);
+  console.log("check user", user);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      loginContext(
+        localStorage.getItem("email"),
+        localStorage.getItem("token")
+      );
+    }
+  }, []);
   return (
     <>
       <div className="app-container">

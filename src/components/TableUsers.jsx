@@ -11,7 +11,7 @@ import { fetchAllUser } from "../api/userApi";
 import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalConfirm from "./ModalConfirm";
-import checkToken from "../api/checkToken";
+// import checkToken from "../api/checkToken";
 
 import { toast } from "react-toastify";
 
@@ -20,7 +20,7 @@ const TableUsers = (props) => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  checkToken();
+  // checkToken();
 
   const navigate = useNavigate();
   const getUser = async (page) => {
@@ -45,6 +45,7 @@ const TableUsers = (props) => {
   };
 
   useEffect(() => {
+    // toast.success("Your account has been");
     getUser();
     // checkToken()
   }, []);
