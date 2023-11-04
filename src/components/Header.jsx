@@ -15,46 +15,49 @@ const Header = (props) => {
   const navigate = useNavigate();
 
   const { logout, user } = useContext(UserContext);
+
   const [hideHeader, setHideHeader] = useState(false);
-  // useEffect(() => {
-  //   if (window.location.pathname === "/login") {
-  //     setHideHeader(true);
-  //   }
-  // });
+  useEffect(() => {
+    if (window.location.pathname === "/login") {
+      setHideHeader(true);
+    }
+  });
 
   const handleLogout = () => {
     logout();
     toast.success("Logout Success");
-    navigate("/login");
+    navigate("/");
   };
   return (
     <>
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="#home">User Appication</Navbar.Brand>
+          <Navbar.Brand href="/">User Appication</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
           <Navbar.Collapse id="responsive-navbar-nav">
-            {(user && !user.auth ||
-              window.location.pathname === '/') && (
-                <>
-                  <Nav className="me-auto">
-                    <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="/users">Users</Nav.Link>
-                  </Nav>
-                  <Nav>
-                    {user && user.email && (
-                      <span className="nav-link">Welcome {user.email}</span>
-                    )}
-                    {user && user.auth === true ? (
-                      <Nav.Link href="#memes" onClick={handleLogout}>
-                        Logout
-                      </Nav.Link>
-                    ) : (
-                      <Nav.Link href="/login">Login</Nav.Link>
-                    )}
-                  </Nav>
-                </>
-              )}
+            {((user && !user.auth) ||
+              window.location.pathname === "/" ||
+              window.location.pathname === "/users") && (
+              <>
+                <Nav className="me-auto">
+                  <Nav.Link href="/">Home</Nav.Link>
+                  <Nav.Link href="/users">Users</Nav.Link>
+                </Nav>
+                <Nav>
+                  {user && user.email && (
+                    <span className="nav-link">Welcome {user.email}</span>
+                  )}
+                  {user && user.auth === true ? (
+                    <Nav.Link href="/" onClick={handleLogout}>
+                      Logout
+                    </Nav.Link>
+                  ) : (
+                    <Nav.Link href="/login">Login</Nav.Link>
+                  )}
+                </Nav>
+              </>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>

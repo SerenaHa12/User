@@ -12,6 +12,13 @@ const Login = () => {
   const navigate = useNavigate();
   const { loginContext } = useContext(UserContext);
 
+  // useEffect(() => {
+  //   let token = localStorage.getItem("token");
+  //   if (token) {
+  //     navigate("/");
+  //   }
+  // });
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
